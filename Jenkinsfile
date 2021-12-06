@@ -1,5 +1,5 @@
 pipeline{
-    agent any
+    agent none
     stages{
         stage("Run Tests") {
             steps {
@@ -38,6 +38,22 @@ pipeline{
             steps {
                 echo "Runnung docker-compose down"
                 sh 'make down'
+            }
+        }
+
+        stage("Deploy to Kubernetes"){
+            agent {
+                label 'kubepod'
+            }
+            steps {
+                git url:'https://github.com/philophilo/exp_k8s.git', branch:'master'
+            }
+            steps {
+                script {
+                    KubernetesDeploy(configs: "namespace.yml", kubeconfigId: 'kubeConfigFile')
+                    KubernetesDeploy(configs: "backend_deployment.yml", kubeconfigId: 'kubeConfigFile')
+                    KubernetesDeploy(configs: "backend_service.yml", kubeconfigId: 'kubeConfigFile')
+                }
             }
         }
     }
