@@ -5,7 +5,7 @@ network:
 
 build:
 	@echo "Building image..."
-	@docker-compose -f $(DEV_COMPOSE_FILE) build
+	@docker-compose -f $(DEV_COMPOSE_FILE) build $(service)
 
 up:
 	@echo "Running docker-compose up"
