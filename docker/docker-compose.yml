@@ -3,6 +3,7 @@ version: '2.4'
 services:
   app:
     restart: always
+    image: philophilo/exp
     build:
       context: ../
       dockerfile: docker/Dockerfile

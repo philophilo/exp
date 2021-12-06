@@ -1,5 +1,5 @@
 pipeline{
-    agent none
+    agent any
     stages{
         stage("Run Tests") {
             steps {
@@ -47,8 +47,6 @@ pipeline{
             }
             steps {
                 git url:'https://github.com/philophilo/exp_k8s.git', branch:'master'
-            }
-            steps {
                 script {
                     KubernetesDeploy(configs: "namespace.yml", kubeconfigId: 'kubeConfigFile')
                     KubernetesDeploy(configs: "backend_deployment.yml", kubeconfigId: 'kubeConfigFile')
